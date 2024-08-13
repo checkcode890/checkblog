@@ -30,8 +30,8 @@ SECRET_KEY = os.getenv('S_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
+# ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 ALLOWED_HOSTS = ['justwriteit.onrender.com', 'localhost', '127.0.0.1']
-
 
 # Application definition
 
