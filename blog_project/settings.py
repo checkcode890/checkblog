@@ -72,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -83,17 +84,29 @@ WSGI_APPLICATION = 'blog_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'sathi_db', 
+#         'USER': 'postgres',   
+#         'PASSWORD': 'sangamsucks',
+#         'HOST': 'localhost',        
+#         'PORT': '5432',              
+#     }
+# }
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
 }
 
 database_url = os.environ.get("DATABASE_URL")
-DATABASES['default'] = dj_database_url.parse(database_url)
 print(f"Database URL: {database_url}")
 
+AUTHENTICATION_BACKENDS = [
+    'users.auth_backend.CustomAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',  # optional fallback
+]
 
 
 # Password validation
