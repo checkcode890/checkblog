@@ -1,22 +1,74 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <article class="media content-section">
-        <img class = "rounded-circle article-img" src ="{{ object.author.profile.image.url }}">
-        <div class="media-body">
-        <div class="article-metadata">
-            <a class="mr-2" href="{% url 'user-posts' object.author.username  %}">{{ object.author }}</a>
-            <small class="text-muted">{{ object.date_posted|date:"Y F d" }}</small>
-            {% if object.author == user %}
-            <div>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
-                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
-            </div>
-            
-            {% endif %}
-        </div>
-        <h2 class="article-title">{{ object.title }}</h2>
-        <p class="article-content">{{ object.content }}</p>
-        </div>
-    </article>
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ MEDIA_URL }}{{ post.author.image }}" alt="{{ post.author.username }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author.username }}</a>
+        <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+      </div>
+      <h2 class="article-title">{{ post.title }}</h2>
+      
+      {% if post.image %}
+        <img src="{{ MEDIA_URL }}{{ post.image }}" alt="{{ post.title }}" class="img-fluid mb-3">
+      {% endif %}
+      
+      <p class="article-content">
+        <!-- You could add more post content here if needed -->
+        <em>Visibility:</em> {{ post.visibility|capfirst }}
+      </p>
+      
+      <!-- Interaction Section -->
+      <div class="d-flex align-items-center mb-3">
+        <button id="like-btn" data-post-id="{{ post.id }}" class="btn btn-outline-primary">
+          Like (<span id="like-count">{{ post.like_count }}</span>)
+        </button>
+      </div>
+      
+      <!-- Comments Section -->
+      <section class="comments-section">
+        <h3>Comments ({{ comments|length }})</h3>
+        <ul class="list-group mb-3">
+          {% for comment in comments %}
+            <li class="list-group-item">
+              <strong>{{ comment.username }}</strong> said: {{ comment.content }}
+              <br>
+              <small class="text-muted">{{ comment.created_at|date:"F d, Y H:i" }}</small>
+            </li>
+          {% empty %}
+            <li class="list-group-item">No comments yet.</li>
+          {% endfor %}
+        </ul>
+        <form method="POST" action="{% url 'post-comments' post.id %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <textarea name="content" class="form-control" rows="3" placeholder="Add your comment here..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </form>
+      </section>
+    </div>
+  </article>
 
-{% endblock content %}
+  <script>
+    // AJAX for liking a post (this example uses vanilla JS)
+    document.getElementById('like-btn').addEventListener('click', function(){
+      var postId = this.getAttribute('data-post-id');
+      fetch("{% url 'like-post' 0 %}".replace('0', postId), {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.success){
+          // Option 1: Reload the page to update the like count.
+          location.reload();
+          // Option 2: Update the like count dynamically:
+          // document.getElementById('like-count').innerText = parseInt(document.getElementById('like-count').innerText) + 1;
+        }
+      });
+    });
+  </script>
+{% endblock %}

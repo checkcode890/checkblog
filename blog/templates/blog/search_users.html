@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <form method="GET" class="mb-4">
+        <input type="text" name="q" placeholder="Search users..." class="form-control">
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </form>
+    
+    {% for user in users %}
+        <div class="card mb-2">
+            <div class="card-body d-flex justify-content-between">
+                <span>{{ user.username }}</span>
+                <form method="POST" action="{% url 'manage-friends' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="friend_id" value="{{ user.id }}">
+                    <button type="submit" name="action" value="send_request" class="btn btn-sm btn-outline-primary">
+                        Add Friend
+                    </button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
