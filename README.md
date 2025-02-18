@@ -1,3 +1,3 @@
-# Blog Website 
+# Sathi Website 
 
-Blog website made with the help of Django where different users can login post blogs 
+Sathi is a webapp to share your life, photos with friends and family made with django
