@@ -1,32 +1,36 @@
 {% extends "blog/base.html" %}
 {% block content %}
-  <h1>Your Friends</h1>
-  {% if friends %}
-    <ul>
-      {% for friend in friends %}
-         <li>{{ friend.username }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>You have no friends.</p>
-  {% endif %}
-  
-  <h2>Pending Friend Requests</h2>
-  {% if pending_requests %}
-    <ul>
-      {% for pending in pending_requests %}
-         <li>
-             {{ pending.username }}
-             <form method="POST" action="{% url 'manage-friends' %}" style="display:inline;">
-                 {% csrf_token %}
-                 <input type="hidden" name="friend_id" value="{{ pending.id }}">
-                 <button type="submit" name="action" value="accept_request">Accept</button>
-                 <button type="submit" name="action" value="decline_request">Decline</button>
-             </form>
-         </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No pending friend requests.</p>
-  {% endif %}
+  <div class="content-section">
+    <h1>Your Friends</h1>
+    {% if friends %}
+      <ul class="list-group">
+        {% for friend in friends %}
+          <li class="list-group-item">{{ friend.username }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>You have no friends.</p>
+    {% endif %}
+  </div>
+
+  <div class="content-section">
+    <h2>Pending Friend Requests</h2>
+    {% if pending_requests %}
+      <ul class="list-group">
+        {% for pending in pending_requests %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ pending.username }}</span>
+            <form method="POST" action="{% url 'manage-friends' %}" class="d-flex gap-2">
+              {% csrf_token %}
+              <input type="hidden" name="friend_id" value="{{ pending.id }}">
+              <button type="submit" name="action" value="accept_request" class="btn btn-sm btn-outline-success">Accept</button>
+              <button type="submit" name="action" value="decline_request" class="btn btn-sm btn-outline-danger">Decline</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No pending friend requests.</p>
+    {% endif %}
+  </div>
 {% endblock %}

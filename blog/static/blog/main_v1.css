@@ -1,0 +1,367 @@
+body {
+  background: #f0f2f5; /* Lighter background */
+  color: #262626; /* Darker, more readable text */
+  font-family: 'Roboto', sans-serif; /* Modern, readable font */
+  margin-top: 4rem; /* Adjusted top margin */
+  -webkit-font-smoothing: antialiased; /* Better font rendering */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #1a1a1a; /* Darker headings */
+  font-weight: 700; /* Stronger heading weight */
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none; /* Remove default list styling */
+}
+
+a {
+  color: #007bff; /* Bootstrap primary color for links */
+  text-decoration: none;
+  transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+a:hover {
+  color: #0056b3; /* Darker blue on hover */
+  text-decoration: underline; /* Keep underline on hover for links */
+}
+
+.bg-steel {
+  background-color: #e9ecef; /* Lighter steel background */
+}
+
+.site-header {
+  background-color: #ffffff; /* White header background */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Subtle header shadow */
+  position: fixed; /* Fixed header */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure header is above other content */
+}
+
+.site-header .navbar-brand {
+  font-weight: 800; /* Stronger brand font weight */
+  color: #212529; /* Darker brand color */
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #6c757d; /* Muted nav link color */
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #343a40; /* Darker nav link on hover */
+}
+
+.site-header .navbar-nav .nav-link.active {
+  color: #007bff; /* Active link color */
+  font-weight: 500;
+}
+
+.content-section {
+  background: #ffffff;
+  padding: 20px 25px; /* Increased padding */
+  border-radius: 8px; /* More rounded corners */
+  margin-bottom: 25px; /* Increased margin */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle content section shadow */
+  border: none; /* Removed border for cleaner look */
+}
+
+.article-title {
+  color: #343a40; /* Darker article titles */
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+a.article-title:hover {
+  color: #007bff; /* Primary color on title hover */
+  text-decoration: underline; /* Underline on title hover */
+}
+
+.article-content {
+  white-space: pre-line;
+  color: #495057; /* Slightly muted article content text */
+  line-height: 1.6; /* Improved line height for readability */
+}
+
+.article-img {
+  width: 65px;
+  height: 65px;
+  margin-right: 16px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+}
+
+.article-img-sm {
+  width: 50px; /* Reduced size */
+  height: 50px; /* Reduced size */
+  margin-right: 10px; /* Adjust right margin if needed */
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+}
+
+.article-author-name {
+  font-size: 1.1rem; /* Larger author name */
+  font-weight: 600; /* Bold author name */
+  color: var(--text-color); /* Inherit text color or adjust as needed */
+  margin-right: 5px; /* Space between name and date if date is beside */
+}
+
+.article-date {
+  font-size: 0.7rem; /* Smaller date */
+  color: #777; /* Muted date color */
+}
+.article-metadata-new a:hover,
+.article-author-name:hover { /* Apply hover style to the new author name class too */
+    color: var(--primary-color); /* Hover color as primary */
+    text-decoration: underline; /* Optional: underline on hover */
+}
+.article-metadata {
+  padding-bottom: 10px; /* Increased padding */
+  margin-bottom: 15px; /* Increased margin */
+  border-bottom: 1px solid #eee; /* Lighter border */
+  display: flex; /* Use flexbox for metadata layout */
+  align-items: center; /* Vertically align items in metadata */
+}
+
+.article-metadata a:hover {
+  color: #495057; /* Muted color on metadata link hover */
+  text-decoration: underline;
+}
+
+.article-svg {
+  width: 20px; /* Adjusted SVG size */
+  height: 20px;
+  vertical-align: middle;
+  fill: #6c757d; /* Muted SVG icon color */
+  margin-right: 5px;
+}
+
+.account-img {
+  height: 150px; /* Larger account image */
+  width: 150px;
+  margin-right: 25px; /* Increased margin */
+  margin-bottom: 20px; /* Increased margin */
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff; /* White border for profile image */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Shadow for profile image */
+}
+
+.account-heading {
+  font-size: 2.8rem; /* Slightly larger account heading */
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* Form Styles (using Bootstrap classes primarily, but can add overrides) */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-control {
+  border-radius: 5px;
+  border-color: #ced4da;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap focus shadow */
+}
+
+.btn {
+  border-radius: 5px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Button hover effects */
+}
+
+.btn:hover {
+  transform: translateY(-2px); /* Slightly lift button on hover */
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-outline-primary {
+  color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #545b62;
+  border-color: #545b62;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-info:hover {
+  background-color: #13849b;
+  border-color: #13849b;
+}
+
+.btn-outline-info {
+  color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-outline-info:hover {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+/* Social Media Specific Styles */
+.like-btn, .comment-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  color: #495057;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.like-btn:hover, .comment-btn:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+  color: #343a40;
+}
+
+.comments-section {
+  margin-top: 20px;
+}
+
+.comments-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #343a40;
+}
+
+.comments-section .list-group-item {
+  border-color: #eee;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  background-color: #f8f9fa;
+}
+
+.comments-section .list-group-item strong {
+  font-weight: 600;
+  color: #343a40;
+  margin-right: 5px;
+}
+
+.comments-section .list-group-item .text-muted {
+  font-size: 0.85rem;
+}
+
+/* Card Style for Search Users and Friends List */
+.card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 1rem;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+/* Responsive adjustments (example, can be expanded) */
+@media (max-width: 768px) {
+  body {
+      margin-top: 3rem; /* Adjust top margin for smaller screens */
+  }
+  .site-header .navbar-brand {
+      font-size: 1.3rem; /* Smaller brand font on mobile */
+  }
+  .site-header .navbar-nav .nav-link {
+      padding: 0.5rem 0.75rem; /* Smaller nav link padding on mobile */
+      font-size: 0.85rem;
+  }
+  .account-img {
+      height: 100px;
+      width: 100px;
+      margin-right: 15px;
+      margin-bottom: 10px;
+  }
+  .account-heading {
+      font-size: 2rem;
+  }
+  .article-img {
+      height: 60px;
+      width: 60px;
+      margin-right: 15px;
+  }
+  .content-section {
+      padding: 15px 20px;
+      margin-bottom: 20px;
+  }
+  .article-title {
+      font-size: 1.3rem;
+  }
+}

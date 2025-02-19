@@ -3,8 +3,8 @@
   <article class="media content-section">
     <img class="rounded-circle article-img" src="{{ MEDIA_URL }}{{ post.author.image }}" alt="{{ post.author.username }}">
     <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author.username }}</a>
+      <div class="article-metadata mb-2">
+        <a class="me-2" href="{% url 'user-posts' post.author.username %}">{{ post.author.username }}</a>
         <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
       </div>
       <h2 class="article-title">{{ post.title }}</h2>
@@ -14,7 +14,6 @@
       {% endif %}
       
       <p class="article-content">
-        <!-- You could add more post content here if needed -->
         <em>Visibility:</em> {{ post.visibility|capfirst }}
       </p>
       
@@ -31,7 +30,7 @@
         <ul class="list-group mb-3">
           {% for comment in comments %}
             <li class="list-group-item">
-              <strong>{{ comment.username }}</strong> said: {{ comment.content }}
+              <strong>{{ comment.username }}</strong> : {{ comment.content }}
               <br>
               <small class="text-muted">{{ comment.created_at|date:"F d, Y H:i" }}</small>
             </li>
@@ -44,16 +43,17 @@
           <div class="form-group">
             <textarea name="content" class="form-control" rows="3" placeholder="Add your comment here..." required></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Submit Comment</button>
+          <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
         </form>
       </section>
     </div>
   </article>
 
   <script>
-    // AJAX for liking a post (this example uses vanilla JS)
+    // AJAX for liking a post with fade effect
     document.getElementById('like-btn').addEventListener('click', function(){
       var postId = this.getAttribute('data-post-id');
+      var likeCountSpan = document.getElementById('like-count');
       fetch("{% url 'like-post' 0 %}".replace('0', postId), {
         method: 'POST',
         headers: {
@@ -63,10 +63,16 @@
       .then(response => response.json())
       .then(data => {
         if(data.success){
-          // Option 1: Reload the page to update the like count.
-          location.reload();
-          // Option 2: Update the like count dynamically:
-          // document.getElementById('like-count').innerText = parseInt(document.getElementById('like-count').innerText) + 1;
+          // Animate fade-out, update count, then fade-in
+          likeCountSpan.classList.add('fade-out');
+          setTimeout(function(){
+            likeCountSpan.textContent = parseInt(likeCountSpan.textContent) + 1;
+            likeCountSpan.classList.remove('fade-out');
+            likeCountSpan.classList.add('fade-in');
+            setTimeout(function(){
+              likeCountSpan.classList.remove('fade-in');
+            }, 500);
+          }, 500);
         }
       });
     });

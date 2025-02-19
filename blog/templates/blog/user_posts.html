@@ -1,36 +1,24 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <h1 class="mb-3">Posts by {{ view.kwargs.username }} ({{ posts|length }})</h1>
-    {% for post in posts %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ MEDIA_URL }}{{ post.author.image }}">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author.username }}</a>
-                    <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-                </div>
-                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-                <p class="article-content">{{ post.content }}</p>
-            </div>
-        </article>
+  <div class="content-section">
+    <form method="GET" class="mb-4">
+      <input type="text" name="q" placeholder="Search users..." class="form-control">
+      <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </form>
+    
+    {% for user in users %}
+      <div class="card mb-2">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <span>{{ user.username }}</span>
+          <form method="POST" action="{% url 'manage-friends' %}">
+            {% csrf_token %}
+            <input type="hidden" name="friend_id" value="{{ user.id }}">
+            <button type="submit" name="action" value="send_request" class="btn btn-sm btn-outline-primary">
+              Add Friend
+            </button>
+          </form>
+        </div>
+      </div>
     {% endfor %}
-    {% if is_paginated %}
-        {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-        {% endif %}
-    {% endif %}
-{% endblock content %}
+  </div>
+{% endblock %}

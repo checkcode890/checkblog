@@ -1,12 +1,12 @@
 {% extends "blog/base.html" %}
 {% block content %}
     {% for post in posts %}
-        <article class="media content-section mb-4">
-            <img class="rounded-circle article-img" src="{{ MEDIA_URL }}{{ post.author.image }}" alt="{{ post.author.username }}">
+        <article class="media content-section mb-4"> <img class="rounded-circle article-img-sm" src="{{ MEDIA_URL }}{{ post.author.image }}" alt="{{ post.author.username }}">
             <div class="media-body ml-3">
                 <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author.username }}</a>
-                    <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                    <a class="mr-2 article-author-name" href="{% url 'user-posts' post.author.username %}">{{ post.author.username }}</a>
+                    <br><hr><br>
+                    <small class="text-muted article-date">{{ post.date_posted|date:"F d, Y" }}</small>
                 </div>
                 <h2>
                     <a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
@@ -16,13 +16,12 @@
                 {% else %}
                     <p>No image attached.</p>
                 {% endif %}
-                
-                <!-- New Buttons for Likes and Comments -->
+
                 <div class="d-flex mt-2">
                     <button class="btn btn-outline-primary mr-2 like-btn" data-post-id="{{ post.id }}">
                         Likes ({{ post.like_count }})
                     </button>
-                    <a href="{% url 'post-detail' post.id %}" class="btn btn-outline-secondary">
+                    <a href="{% url 'post-detail' post.id %}" class="btn btn-outline-secondary comment-btn">
                         Comments ({{ post.comment_count }})
                     </a>
                 </div>
@@ -49,31 +48,30 @@
             <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
         {% endif %}
     {% endif %}
-    
-    <!-- JavaScript for handling the like button via AJAX -->
+
     <script>
-      // Get all like buttons on the page
-      document.querySelectorAll('.like-btn').forEach(function(button) {
-          button.addEventListener('click', function() {
-              var postId = this.getAttribute('data-post-id');
-              fetch("{% url 'like-post' 0 %}".replace('0', postId), {
-                  method: 'POST',
-                  headers: {
-                      'X-CSRFToken': '{{ csrf_token }}'
-                  }
-              })
-              .then(response => response.json())
-              .then(data => {
-                  if(data.success){
-                      // Parse the current count from the button text
-                      let currentText = button.innerText;
-                      let match = currentText.match(/\d+/);
-                      let count = match ? parseInt(match[0]) : 0;
-                      count += 1;
-                      button.innerText = "Likes (" + count + ")";
-                  }
-              });
-          });
-      });
+        // Get all like buttons on the page
+        document.querySelectorAll('.like-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var postId = this.getAttribute('data-post-id');
+                fetch("{% url 'like-post' 0 %}".replace('0', postId), {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success){
+                        // Parse the current count from the button text
+                        let currentText = button.innerText;
+                        let match = currentText.match(/\d+/);
+                        let count = match ? parseInt(match[0]) : 0;
+                        count += 1;
+                        button.innerText = "Likes (" + count + ")";
+                    }
+                });
+            });
+        });
     </script>
 {% endblock content %}
