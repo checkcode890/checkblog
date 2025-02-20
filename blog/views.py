@@ -4,7 +4,7 @@ from django.db import connection
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django import forms
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponseNotAllowed
 from django.conf import settings
 from django.utils import timezone
 
@@ -332,9 +332,27 @@ def post_comments(request, post_id):
         comments = cursor.fetchall()
     return JsonResponse({'comments': comments})
 
+
 @login_required
 def delete_post(request, post_id):
-    with connection.cursor() as cursor:
-        cursor.execute("DELETE FROM blog_post WHERE id = %s AND author_id = %s", [post_id, request.user.id])
-    messages.success(request, "Post deleted successfully!")
-    return redirect('home')
+    if request.method == 'POST':
+        with connection.cursor() as cursor:
+            # Fetch the post's image path before deleting the post
+            cursor.execute("SELECT image FROM blog_post WHERE id = %s AND author_id = %s", [post_id, request.user.id])
+            post = cursor.fetchone()
+            
+            if post:
+                # Delete the post's image file from the filesystem (if it exists)
+                if post[0]:  # Check if the post has an image
+                    image_path = os.path.join(settings.MEDIA_ROOT, post[0])
+                    if os.path.exists(image_path):
+                        os.remove(image_path)  # Delete the image file
+
+                # Delete the post from the database
+                cursor.execute("DELETE FROM blog_post WHERE id = %s AND author_id = %s", [post_id, request.user.id])
+                messages.success(request, "Post deleted successfully!")
+            else:
+                messages.error(request, "Post not found or you are not authorized to delete it.")
+        
+        return redirect('home')
+    return HttpResponseNotAllowed(['POST'])
