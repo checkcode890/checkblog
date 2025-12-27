@@ -84,12 +84,13 @@ WSGI_APPLICATION = 'blog_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+#remove comment to run local
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'sathi_db', 
-#         'USER': 'postgres',   
-#         'PASSWORD': 'sangamsucks',
+#         'NAME': 'your database name', 
+#         'USER': 'database user',   
+#         'PASSWORD': 'database password',
 #         'HOST': 'localhost',        
 #         'PORT': '5432',              
 #     }
